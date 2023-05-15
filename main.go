@@ -1,5 +1,10 @@
 package main
 
+func main() {
+	gui.mainView()
+}
+
+/* CAPTURE
 import (
 	"github.com/kbinani/screenshot"
 )
@@ -12,3 +17,4 @@ func main() {
 	}
 
 }
+/* FINAL CAPTURE */
