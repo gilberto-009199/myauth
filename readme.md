@@ -4,7 +4,29 @@
   Aplication for OTP in Desktop
 
 
-# How Build from files
+
+## Run
+
+  In commandline run:
+  
+```shell
+    go run main.go
+```
+
+## Build
+
+`Linux:`
+```shell
+    // NOT use $ env GOOS=linux GOARCH=amd64 go build 
+    fyne package -os linux -icon icone.png
+```
+`Windows:`
+```shell
+    // NOT use $ env GOOS=windows GOARCH=amd64 go build 
+    fyne package -os linux -icon icone.png
+```
+
+## Dependencies
 
 Dependencies Linux:
 
