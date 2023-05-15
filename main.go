@@ -1,20 +1,9 @@
 package main
 
-func main() {
-	gui.mainView()
-}
-
-/* CAPTURE
 import (
-	"github.com/kbinani/screenshot"
+	"myauth/application/cmd"
 )
 
 func main() {
-	// Capture each displays.
-	n := screenshot.NumActiveDisplays()
-	if n <= 0 {
-		panic("Display not found")
-	}
-
+	cmd.Start()
 }
-/* FINAL CAPTURE */
