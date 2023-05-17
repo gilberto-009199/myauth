@@ -11,6 +11,7 @@ func Start() {
 
 	app := app.New()
 	app.Settings().SetTheme(theme.LightTheme())
+
 	// app.SetIcon(  )
 
 	view.MainView(app)
