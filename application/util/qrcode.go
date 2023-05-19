@@ -14,6 +14,7 @@ func ReadQRCode() {
 		return
 	}
 	defer fi.Close()
+
 	qrmatrix, err := qrcode.Decode(fi)
 	if err != nil {
 		fmt.Println(err.Error())

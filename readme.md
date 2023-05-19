@@ -23,7 +23,7 @@
 `Windows:`
 ```shell
     // NOT use $ env GOOS=windows GOARCH=amd64 go build 
-    fyne package -os linux -icon icone.png
+    fyne-cross windows -app-id com.myauth -icon icone.png
 ```
 
 ## Dependencies

@@ -1,13 +1,13 @@
 package util
 
 import (
-	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/canvas"
-	"fyne.io/fyne/v2/container"
+	"image"
+	"image/color"
+
 	"github.com/kbinani/screenshot"
 )
 
-func ReadScreen(app fyne.App) {
+func ReadScreen() *image.RGBA {
 	n := screenshot.NumActiveDisplays()
 	if n <= 0 {
 		panic("Display not found")
@@ -19,20 +19,17 @@ func ReadScreen(app fyne.App) {
 		panic(err)
 	}
 
-	// bounds.Dx(), bounds.Dy()
+	// Drawing IMG Gray
+	b := img.Bounds()
+	imgSet := image.NewRGBA(b)
+	for y := 0; y < b.Max.Y; y++ {
+		for x := 0; x < b.Max.X; x++ {
+			oldPixel := img.At(x, y)
+			pixel := color.GrayModel.Convert(oldPixel)
+			imgSet.Set(x, y, pixel)
+		}
+	}
 
-	// Drawing IMG
+	return imgSet
 
-	w := app.NewWindow("")
-
-	ctx := container.NewMax(canvas.NewImageFromImage(img))
-
-	// https://github.com/search?q=repo%3Afyne-io%2Ffyne%20%20fullscreen&type=code
-	w.SetFullScreen(true)
-	//w.Resize( fyne.NewSize( bounds.Dx() , bounds.Dy() ) )
-	w.SetContent(ctx)
-	w.Show()
-	w.SetPadded(false)
-	// rect drawing and image load canva - https://github.com/fyne-io/fyne/issues/2924
-	// mause move - https://github.com/fyne-io/fyne/issues/2538
 }

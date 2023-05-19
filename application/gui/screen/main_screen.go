@@ -21,7 +21,9 @@ func MainView(app fyne.App) {
 	//fyne.LoadResourceFromPath("23")
 	toolbar := widget.NewToolbar(
 		widget.NewToolbarAction(theme.DocumentPrintIcon(), func() {
+			window.Hide()
 			CaptureView(app)
+			window.Show()
 		}),
 		widget.NewToolbarSeparator(),
 		widget.NewToolbarAction(theme.DocumentSaveIcon(), func() {}),
