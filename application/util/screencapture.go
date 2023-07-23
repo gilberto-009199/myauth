@@ -2,7 +2,6 @@ package util
 
 import (
 	"image"
-	"image/color"
 
 	"github.com/kbinani/screenshot"
 )
@@ -18,9 +17,9 @@ func ReadScreen() *image.RGBA {
 	if err != nil {
 		panic(err)
 	}
-
+	return img
 	// Drawing IMG Gray
-	b := img.Bounds()
+	/*b := img.Bounds()
 	imgSet := image.NewRGBA(b)
 	for y := 0; y < b.Max.Y; y++ {
 		for x := 0; x < b.Max.X; x++ {
@@ -31,5 +30,5 @@ func ReadScreen() *image.RGBA {
 	}
 
 	return imgSet
-
+	*/
 }
