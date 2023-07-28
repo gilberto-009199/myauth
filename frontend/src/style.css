@@ -1,5 +1,9 @@
+
+@import "assets/css/animate.css";
+@import "assets/fonts/elegant/style.css";
+
 html {
-    background-color: rgba(27, 38, 54, 1);
+    background-color: rgb(0, 0, 0);
     text-align: center;
     color: white;
 }

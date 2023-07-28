@@ -1,56 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Hide, Show, WindowFullscreen, WindowUnfullscreen, ScreenGetAll } from '../../../wailsjs/runtime/runtime';
-import { CaptureScreen, CaptureScreenQRCode } from '../../../wailsjs/go/main/App';
+import {
+  Hide, Show, WindowFullscreen, WindowUnfullscreen,
+  ScreenGetAll, WindowCenter, WindowGetSize, WindowReloadApp,
+  WindowSetSize, WindowGetPosition, WindowSetPosition
+} from '../../../wailsjs/runtime/runtime';
 
-const styles = {
-  container:{
-    position:'absolute',
-    width:'100vw',
-    height:'100vh',
-    //'z-index':'10',
-    top:'0',
-    left:'0'
-  },
-  canvas: {
-    backgroundColor: 'lightblue',
-    margin:'0px',
-    padding:'0px',
-    display: 'block',
-    width:'100vw',
-    height:'100vh',
-  //  'z-index':'9',
-    position:'absolute',
-    top:'0',
-    left:'0'
-  },
-  divTop:{
-    'background': '#101010a3',
-    'height':'100vh',
-    'width':'100%',
-    'float':'left'
-  },
-  span:{
-    'width':'100vw',
-    'display':'block',
-    'overflow':'auto'
-  },
-  divRight:{
-    'background': '#101010a3',
-    'width':'50%',
-    'float':'right'
-  },
-  divLeft:{
-    'background': '#101010a3',
-    'width':'50%',
-    'float':'left'
-  },
-  divBottom:{
-    'background': '#101010a3',
-    'width':'100%',
-    'float':'left'
-  }
-};
+import { CaptureScreen, CaptureScreenQRCode } from '../../../wailsjs/go/crud/CrudToken';
 
 const Capture = () => {
 
@@ -60,6 +16,8 @@ const Capture = () => {
   const divRightRef = useRef(null);
   const divBottomRef = useRef(null);
   const navigate = useNavigate();
+
+  var windowOriginSize = {w: 500, h: 350};
 
   var canvas    = {};
   var divTop    = {};
@@ -77,18 +35,20 @@ const Capture = () => {
   useEffect(() => {
 
     canvas    = canvasRef.current;
-    
 
     ctx = canvas.getContext('2d');
-    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingEnabled = false;
+
+	WindowGetSize().then((size) => windowOriginSize = size);
 
     ScreenGetAll().then(screens =>{
-      for(let screen of screens){
+      for(const [index, screen] of screens.entries()){
         if(screen.isCurrent){
+
           canvas.width = screen.width;
           canvas.height = screen.height;
-          
-          CaptureScreen().then( imageData =>{
+
+          CaptureScreen(index).then( imageData =>{
 
             backgroundImage = new Image();
             backgroundImage.onload = () => { 
@@ -106,32 +66,36 @@ const Capture = () => {
       }
     });
 
-    Hide();
     
+    Hide();
+  
     // capture ESC and outer keys 
     // then clear points and inDefineRect
+  
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    }
+    
   }, []);
 
   const handleMouseMove = (e) => {
 
     e.preventDefault()
 
-    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-
-
     const rect = canvas.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
+
+    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = 'white';
 
     // Line Y
     if(!point1)ctx.fillRect( 0, mouseY, canvas.width, 0.2);
-    
 
     // Line X
     if(!point2)ctx.fillRect( mouseX, 0, 0.2, canvas.height);
-
 
     if(!inDefineRect){
 
@@ -233,7 +197,8 @@ const Capture = () => {
     }
 
     
-    if(point1 && point2) CaptureScreenQRCode([point1.x, point1.y],[point2.x, point2.y]).then(handlerCaptureScreenQRCode);
+    if(point1 && point2) CaptureScreenQRCode([Math.ceil(point1.x), Math.ceil(point1.y)],[Math.ceil(point2.x), Math.ceil(point2.y)])
+    .then(handlerCaptureScreenQRCode);
 
 
   }; 
@@ -250,31 +215,102 @@ const Capture = () => {
     inMoveRect = !inMoveRect;
 
 
-    if(!inMoveRect) CaptureScreenQRCode([point1.x, point1.y],[point2.x, point2.y]).then(handlerCaptureScreenQRCode);
+    if(!inMoveRect) CaptureScreenQRCode([Math.ceil(point1.x), Math.ceil(point1.y)],[Math.ceil(point2.x), Math.ceil(point2.y)])
+    .then(handlerCaptureScreenQRCode);
 
   }
   const handlerCaptureScreenQRCode = (result_raw) =>{
-    console.log(result_raw)
+
     let result = JSON.parse(result_raw)
 
     if(result.status){
 
-      console.log(result)
-      console.log("REDIRECT-->>>")
-      
-      WindowUnfullscreen()
-
       navigate("/token/create/", { state: result.message })
+
+      handleWindowReset().then(() => {}).catch(()=> WindowReloadApp())
 
     // no detect
     } else {
 
       ctx.strokeStyle = 'red';
       ctx.setLineDash([6]);
-      ctx.strokeRect( point1.x, point1.y, point2.x - point1.x, point2.y - point1.y );
+      ctx.strokeRect( point1.x, point1.y, point2.x - point1.x, point2.y - point1.y );  
 
     }
   }
+
+  const handleKeyPress = (event) => {
+
+    if (
+        event.keyCode == 27 || // ESC
+        event.keyCode == 32 || // ESPACE
+        event.keyCode == 17 || // CTRL
+        event.keyCode == 16  // SHIFT
+      ) {
+
+      	// se ao tentar pegar o position eu ja tenha maximizado em fullcreen a tela?
+		  setTimeout(() => handleWindowReset().then(() => {}).catch(()=> WindowReloadApp()), 50)
+
+      	navigate("/")
+	}
+
+  };
+
+  const handleWindowReset = () => {
+
+	  WindowUnfullscreen();
+    WindowCenter()
+	  return WindowSetSize(windowOriginSize.w , windowOriginSize.h); 
+  }
+
+  const styles = {
+    container:{
+      position:'absolute',
+      width:'100vw',
+      height:'100vh',
+	  overflow: 'hidden',
+      top:'0',
+      left:'0'
+    },
+    canvas: {
+      backgroundColor: 'lightblue',
+      margin:'0px',
+      padding:'0px',
+      display: 'block',
+      width:'100vw',
+      height:'100vh',
+      position:'absolute',
+      top:'0',
+      left:'0'
+    },
+    divTop:{
+      'background': '#101010bf',
+      'height':'100vh',
+      'width':'100%',
+      'float':'left'
+    },
+    span:{
+      'width':'100vw',
+      'display':'block',
+      'overflow':'auto'
+    },
+    divRight:{
+      'background': '#101010bf',
+      'width':'50%',
+      'float':'right'
+    },
+    divLeft:{
+      'background': '#101010bf',
+      'width':'50%',
+      'float':'left'
+    },
+    divBottom:{
+      'background': '#101010bf',
+      'width':'100%',
+      'float':'left'
+    }
+  };
+
   return (
     <div>
       <canvas style={styles.canvas}     ref={canvasRef} ></canvas>
@@ -286,7 +322,7 @@ const Capture = () => {
         </span>
         <div  style={styles.divBottom}   ref={divBottomRef}></div>
       </div>
-    </div>
+  \  </div>
   );
 };
 
