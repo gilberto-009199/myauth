@@ -3,8 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ListAlgoritm  as getListAlgoritm } from '../../../wailsjs/go/main/App';
+import { TokenCreate } from '../../../wailsjs/go/crud/CrudToken';
 
-const Create = () => {
+const Create = (props) => {
 
   // feature add campo code current for register
   const location = useLocation();
@@ -13,7 +14,7 @@ const Create = () => {
   
   getListAlgoritm().then(res =>{
     let data = JSON.parse(res)
-    setListAlgoritm(data['Message'])
+    setListAlgoritm( data.message )
   });
 
   const formik = useFormik({
@@ -21,6 +22,7 @@ const Create = () => {
       name: '',
       secret: '',
       algoritm: '',
+      url:''
     },
     validationSchema: Yup.object({
       name: Yup.string().required('The name is necessary').min(3),
@@ -30,7 +32,11 @@ const Create = () => {
     onSubmit: (values) => {
       // Realizar ações de envio do formulário
       console.log('Dados do formulário:', values);
-
+      TokenCreate(JSON.stringify(values)).then(res=>{
+        console.log(res)
+      }).catch(e=>{
+        console.log(e)
+      })
       // Limpar os campos após o envio
       formik.resetForm();
     },
@@ -39,14 +45,16 @@ const Create = () => {
   useEffect(() => {
 
     if( location.state ){
-      
-        formik.values.name = location.state.name || '';
-        formik.values.secret = location.state.secret || '';
-        formik.values.algoritm = location.state.algoritm || '';
-        formik.values.url = location.state.url || '';
+        console.log(location.state)
+        
+        formik.setValues({
+          name: location.state.name || '',
+          secret: location.state.secret || '',
+          algoritm: location.state.algoritm,
+          url: location.state.url
+        })
 
     }
-    console.log(listAlgoritm);
 
   }, []);
 
@@ -86,10 +94,12 @@ const Create = () => {
             name="algoritm"
             value={formik.values.algoritm}
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur} >
+            onBlur={formik.handleBlur}
+            >
+              <option value="">Selecione um item</option>
               {
-                listAlgoritm.map((item, index) => (
-                  <option value={index}>{item}</option>
+                listAlgoritm.map((item,index) => (
+                  <option key={index} value={item}>{item}</option>
                 ))
               }
           </select>

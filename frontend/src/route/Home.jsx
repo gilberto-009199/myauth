@@ -14,6 +14,7 @@ const Home = () => {
   useEffect(() => {
     
     TokenList(passwrd.pass).then(res =>{
+      res = JSON.parse(res)
       if(res.status){
         setListTokens(res.message)
       }
@@ -33,7 +34,7 @@ const Home = () => {
       ) : (
         <div>
           {listTokens.map((item, index) => (
-            <label key={index}>{item}</label>
+            <label key={index}>{item.name} - {item.code}</label>
           ))}
         </div>
       )}

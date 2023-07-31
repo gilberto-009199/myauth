@@ -6,8 +6,8 @@ import (
 )
 
 type Message struct {
-	Status  bool        `json:status`
-	Message interface{} `json:message`
+	Status  bool        `json:"status"`
+	Message interface{} `json:"message"`
 }
 
 func NewMessage(status bool, message interface{}) *Message {
@@ -26,7 +26,11 @@ func (m *Message) ToJSON() string {
 	return json
 }
 
-func unMarshal(payload string, dataInterface *interface{}) error {
+func UnMarshal(payload string, dataInterface interface{}) error {
+	return json.Unmarshal([]byte(payload), dataInterface)
+}
+
+func unMarshal(payload string, dataInterface interface{}) error {
 	return json.Unmarshal([]byte(payload), dataInterface)
 }
 

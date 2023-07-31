@@ -220,14 +220,14 @@ const Capture = () => {
 
   }
   const handlerCaptureScreenQRCode = (result_raw) =>{
-
+    console.log(result_raw)
     let result = JSON.parse(result_raw)
 
     if(result.status){
 
       navigate("/token/create/", { state: result.message })
 
-      handleWindowReset().then(() => {}).catch(()=> WindowReloadApp())
+      handleWindowReset().then(() => {}).catch(()=> {})
 
     // no detect
     } else {
@@ -251,7 +251,7 @@ const Capture = () => {
       	// se ao tentar pegar o position eu ja tenha maximizado em fullcreen a tela?
 		  setTimeout(() => handleWindowReset().then(() => {}).catch(()=> WindowReloadApp()), 50)
 
-      	navigate("/")
+      navigate("/")
 	}
 
   };
@@ -259,8 +259,13 @@ const Capture = () => {
   const handleWindowReset = () => {
 
 	  WindowUnfullscreen();
-    WindowCenter()
-	  return WindowSetSize(windowOriginSize.w , windowOriginSize.h); 
+    
+	  return new Promise((resolve,reject)=>{
+      WindowCenter()
+      WindowSetSize(windowOriginSize.w , windowOriginSize.h).then(size=>resolve())
+      .catch(e=>reject(e)); 
+    });
+
   }
 
   const styles = {

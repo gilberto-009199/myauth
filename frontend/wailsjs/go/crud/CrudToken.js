@@ -10,8 +10,8 @@ export function CaptureScreenQRCode(arg1, arg2) {
   return window['go']['crud']['CrudToken']['CaptureScreenQRCode'](arg1, arg2);
 }
 
-export function TokenCreate() {
-  return window['go']['crud']['CrudToken']['TokenCreate']();
+export function TokenCreate(arg1) {
+  return window['go']['crud']['CrudToken']['TokenCreate'](arg1);
 }
 
 export function TokenDelete() {

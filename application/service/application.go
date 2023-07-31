@@ -3,9 +3,12 @@ package service
 import (
 	"fmt"
 	"log"
+	"myauth/application/model"
 	"myauth/application/util"
 
 	"path/filepath"
+
+	"github.com/google/uuid"
 )
 
 type ApplicationService struct {
@@ -57,5 +60,24 @@ func (s *ApplicationService) Start() {
 	s.MapToken = mapToken
 
 	fmt.Println(s.MapToken)
+
+}
+
+func (s *ApplicationService) AddToken(token model.TokenRequest) {
+	id := uuid.New()
+
+	payload := util.Encrypt(token.Algoritm, token.Url, token.Passwrd, token.Name)
+
+	tokenStorage := util.Token{
+		Name:     token.Name,
+		Algoritm: token.Algoritm,
+		Payload:  payload,
+	}
+
+	s.MapToken[id.String()] = tokenStorage
+
+	fmt.Println(s.MapToken)
+
+	go util.SaveTokensInFile(s.Settings.PathFileTokens, s.MapToken)
 
 }

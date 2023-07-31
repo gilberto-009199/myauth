@@ -59,10 +59,11 @@ func (a *CrudToken) CaptureScreenQRCode(point1 []int, point2 []int) string {
 		return model.NewMessage(false, nil).ToJSON()
 	}
 
-	return model.NewMessage(false, TokenResponse{
+	return model.NewMessage(true, model.TokenResponse{
 		Name:     message.Query().Get("issuer"),
 		Algoritm: a.appService.Settings.AlgoritmDefault,
 		Secret:   message.Query().Get("secret"),
+		Url:      qrmatrix.Content,
 	}).ToJSON()
 }
 
