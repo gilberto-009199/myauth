@@ -39,6 +39,20 @@ func (s *ApplicationService) Start() {
 		}
 	}
 
+	if settings.PathFileSettings != settingsDefault.PathFileSettings {
+
+		settingsExternal, er := util.ReadSettingsInFile(settings.PathFileSettings)
+
+		if er != nil {
+			if util.SaveSettingsInFile(settings.PathFileSettings, settingsDefault) {
+				settingsExternal, _ = util.ReadSettingsInFile(settingsDefault.PathFileSettings)
+			} else {
+				log.Fatal("Not create file config")
+			}
+		}
+		settings = settingsExternal
+	}
+
 	s.Settings = settings
 
 	mapToken, er := util.ReadTokensInFile(s.Settings.PathFileTokens)
@@ -63,6 +77,24 @@ func (s *ApplicationService) Start() {
 
 }
 
+func (s *ApplicationService) SetSettings(settings model.SettingsRequest) {
+
+	settingsNow := util.Settings{
+		PathFileSettings: settings.PathFileSettings,
+		PathFileTokens:   settings.PathFileTokens,
+		AlgoritmDefault:  settings.AlgoritmDefault,
+	}
+
+	util.SaveSettingsInFile(settingsDefault.PathFileSettings, settingsNow)
+
+	util.SaveSettingsInFile(settings.PathFileSettings, settingsNow)
+
+	util.SaveTokensInFile(settings.PathFileTokens, s.MapToken)
+
+	s.Settings = settingsNow
+
+}
+
 func (s *ApplicationService) AddToken(token model.TokenRequest) {
 	id := uuid.New()
 
@@ -77,6 +109,41 @@ func (s *ApplicationService) AddToken(token model.TokenRequest) {
 	s.MapToken[id.String()] = tokenStorage
 
 	fmt.Println(s.MapToken)
+
+	go util.SaveTokensInFile(s.Settings.PathFileTokens, s.MapToken)
+
+}
+
+func (s *ApplicationService) UpdateToken(uid string, token model.TokenRequest, pass string) {
+
+	tokenCurrent := s.MapToken[uid]
+
+	payloadCurrent, decript := util.Decrypt(tokenCurrent.Algoritm, tokenCurrent.Payload, pass, tokenCurrent.Name)
+	if !decript {
+		fmt.Println("FALED Decript")
+	}
+
+	//	fmt.Printf("Decript: %s\n", payloadCurrent)
+
+	payloadNow := util.Encrypt(token.Algoritm, payloadCurrent, token.Passwrd, token.Name)
+
+	tokenStorage := util.Token{
+		Name:     token.Name,
+		Algoritm: token.Algoritm,
+		Payload:  payloadNow,
+	}
+
+	s.MapToken[uid] = tokenStorage
+
+	fmt.Println(s.MapToken)
+
+	go util.SaveTokensInFile(s.Settings.PathFileTokens, s.MapToken)
+
+}
+
+func (s *ApplicationService) RemoveToken(uid string) {
+
+	delete(s.MapToken, uid)
 
 	go util.SaveTokensInFile(s.Settings.PathFileTokens, s.MapToken)
 

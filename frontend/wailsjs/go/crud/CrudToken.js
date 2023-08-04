@@ -14,14 +14,18 @@ export function TokenCreate(arg1) {
   return window['go']['crud']['CrudToken']['TokenCreate'](arg1);
 }
 
-export function TokenDelete() {
-  return window['go']['crud']['CrudToken']['TokenDelete']();
+export function TokenDelete(arg1) {
+  return window['go']['crud']['CrudToken']['TokenDelete'](arg1);
+}
+
+export function TokenInfo(arg1, arg2) {
+  return window['go']['crud']['CrudToken']['TokenInfo'](arg1, arg2);
 }
 
 export function TokenList(arg1) {
   return window['go']['crud']['CrudToken']['TokenList'](arg1);
 }
 
-export function TokenUpdate() {
-  return window['go']['crud']['CrudToken']['TokenUpdate']();
+export function TokenUpdate(arg1, arg2, arg3) {
+  return window['go']['crud']['CrudToken']['TokenUpdate'](arg1, arg2, arg3);
 }

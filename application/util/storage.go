@@ -9,17 +9,17 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-var prefix_name = []byte("myauth.gilberto-009199.github.com")
-var prefix_version = []byte("001")
-var prefix = append(prefix_name, prefix_version...)
+var Prefix_name = []byte("myauth.gilberto-009199.github.com")
+var Prefix_version = []byte("001")
+var Prefix = append(Prefix_name, Prefix_version...)
 
-var sizeBytesFromPrefixName = len(prefix_name)
-var sizeBytesFromPrefixVersion = len(prefix_version)
+var sizeBytesFromPrefixName = len(Prefix_name)
+var sizeBytesFromPrefixVersion = len(Prefix_version)
 
 type Settings struct {
-	PathFileSettings string
-	PathFileTokens   string
-	AlgoritmDefault  string
+	PathFileSettings string `json:"file_settings"`
+	PathFileTokens   string `json:"file_tokens"`
+	AlgoritmDefault  string `json:"algoritm"`
 }
 
 type Token struct {
@@ -64,9 +64,9 @@ func ReadSettingsInFile(filename string) (Settings, error) {
 
 func SaveSettingsInFile(filename string, setting Settings) bool {
 
-	bytesFromSettings := toBSON(setting)
+	bytesFromSettings := ToBSON(setting)
 
-	er := saveInFile(filename, append(prefix, bytesFromSettings...))
+	er := SaveInFile(filename, append(Prefix, bytesFromSettings...))
 
 	if er != nil {
 		fmt.Println(er)
@@ -77,9 +77,9 @@ func SaveSettingsInFile(filename string, setting Settings) bool {
 }
 
 func SaveTokensInFile(filename string, listToken map[string]Token) bool {
-	bytesFromListToken := toBSON(listToken)
+	bytesFromListToken := ToBSON(listToken)
 
-	er := saveInFile(filename, append(prefix, bytesFromListToken...))
+	er := SaveInFile(filename, append(Prefix, bytesFromListToken...))
 
 	if er != nil {
 		fmt.Println(er)
@@ -90,7 +90,7 @@ func SaveTokensInFile(filename string, listToken map[string]Token) bool {
 }
 
 // UTil Bson And File's
-func toBSON(ent interface{}) []byte {
+func ToBSON(ent interface{}) []byte {
 	data, err := bson.Marshal(ent)
 	if err != nil {
 		fmt.Println(err)
@@ -104,7 +104,7 @@ func readInArrayToObject(byteArray []byte, obj interface{}) {
 	}
 }
 
-func saveInFile(filename string, data []byte) error {
+func SaveInFile(filename string, data []byte) error {
 	erro := ioutil.WriteFile(filename, data, 0644)
 	return erro
 }
@@ -124,4 +124,11 @@ func GetDirUser() string {
 		log.Fatal(err)
 	}
 	return dirname
+}
+
+func (f *Token) IsInterfaceNil() bool {
+	if nil == f {
+		return true
+	}
+	return false
 }

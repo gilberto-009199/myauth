@@ -1,7 +1,7 @@
 package util
 
 import (
-	"log"
+	"fmt"
 	"net/url"
 	"time"
 
@@ -25,7 +25,7 @@ func ReadOTPInPayloadToDataCode(otp string) DataCode {
 
 	parsedURL, err := url.Parse(otp_url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 		return data
 	}
 
@@ -34,7 +34,7 @@ func ReadOTPInPayloadToDataCode(otp string) DataCode {
 	timeCurrent := time.Now()
 	code, err := totp.GenerateCode(secret, timeCurrent)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 	data.Code = code
 
@@ -42,14 +42,13 @@ func ReadOTPInPayloadToDataCode(otp string) DataCode {
 }
 
 // gil por que vc nao simplesmente usa gson ou o jsonp padrao do Go? Em?
-
 func ReadOTPInURLToJSON(otp string) (*url.URL, error) {
 
 	otp_url := otp
 
 	parsedURL, err := url.Parse(otp_url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 		return nil, err
 	}
 	/*

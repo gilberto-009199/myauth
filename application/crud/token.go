@@ -1,7 +1,6 @@
 package crud
 
 import (
-	"fmt"
 	"myauth/application/model"
 	"myauth/application/service"
 )
@@ -24,24 +23,47 @@ func (a *CrudToken) TokenList(passwrd string) string {
 
 	return model.NewMessage(true, listToken).ToJSON()
 }
+
+func (a *CrudToken) TokenInfo(uid, pass string) string {
+
+	token := a.appService.MapToken[uid]
+
+	if !token.IsInterfaceNil() {
+		return model.NewMessage(false, nil).ToJSON()
+	}
+
+	item := model.ToTokenResponse(token, pass)
+	item.Id = uid
+
+	return model.NewMessage(true, item).ToJSON()
+}
+
 func (a *CrudToken) TokenCreate(res string) string {
 
-	fmt.Println(res)
 	request := model.ToTokenRequest(res)
-	fmt.Println(request.Name)
-	fmt.Println(request.Secret)
-	fmt.Println(request.Url)
-	fmt.Println(request.Algoritm)
+
 	a.appService.AddToken(request)
 
 	return model.NewMessage(true, nil).ToJSON()
 }
 
-func (a *CrudToken) TokenUpdate() string {
-	return ""
+func (a *CrudToken) TokenUpdate(uid, res, pass string) string {
+
+	request := model.ToTokenRequest(res)
+
+	if len(request.Passwrd) < 1 {
+		request.Passwrd = pass
+	}
+
+	a.appService.UpdateToken(uid, request, pass)
+
+	return model.NewMessage(true, nil).ToJSON()
 }
-func (a *CrudToken) TokenDelete() string {
-	return ""
+func (a *CrudToken) TokenDelete(uid string) string {
+
+	a.appService.RemoveToken(uid)
+
+	return model.NewMessage(true, nil).ToJSON()
 }
 
 func Build(service *service.ApplicationService) *CrudToken {

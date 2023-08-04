@@ -39,7 +39,7 @@ const Capture = () => {
     ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
 
-	WindowGetSize().then((size) => windowOriginSize = size);
+	  WindowGetSize().then((size) => windowOriginSize = size);
 
     ScreenGetAll().then(screens =>{
       for(const [index, screen] of screens.entries()){
@@ -73,6 +73,7 @@ const Capture = () => {
     // then clear points and inDefineRect
   
     document.addEventListener('keydown', handleKeyPress);
+
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     }

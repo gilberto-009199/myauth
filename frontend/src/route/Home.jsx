@@ -1,5 +1,6 @@
 import React,{ useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
+
 import { TokenList } from '../../wailsjs/go/crud/CrudToken';
 
 const Home = () => {
@@ -34,7 +35,15 @@ const Home = () => {
       ) : (
         <div>
           {listTokens.map((item, index) => (
-            <label key={index}>{item.name} - {item.code}</label>
+            <div key={index}>
+              <label>{item.name} - {item.code}</label>
+              <div>
+                <Link to={"/token/update"} state={item}>Edit</Link><br/>
+                <Link to={"/token/info"} state={item}>Info</Link><br/>
+                <Link to={"/token/remove"} state={item}>remove</Link><br/>
+                <Link to={"/token/export"} state={item}>export</Link><br/>
+              </div>
+            </div>
           ))}
         </div>
       )}

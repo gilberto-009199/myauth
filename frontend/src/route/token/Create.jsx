@@ -1,5 +1,6 @@
 import React,{ useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ListAlgoritm  as getListAlgoritm } from '../../../wailsjs/go/main/App';
@@ -9,7 +10,7 @@ const Create = (props) => {
 
   // feature add campo code current for register
   const location = useLocation();
-  
+  const navigate = useNavigate();
   const [listAlgoritm, setListAlgoritm] = useState([]);
   
   getListAlgoritm().then(res =>{
@@ -34,6 +35,7 @@ const Create = (props) => {
       console.log('Dados do formulário:', values);
       TokenCreate(JSON.stringify(values)).then(res=>{
         console.log(res)
+        navigate('/')
       }).catch(e=>{
         console.log(e)
       })
@@ -63,7 +65,7 @@ const Create = (props) => {
       <h1>Token Create</h1>
       <form onSubmit={formik.handleSubmit}>
         <div>
-          <label>Name:</label>
+          <label htmlFor="name">Name:</label>
           <input
             type="text"
             name="name"
@@ -76,7 +78,7 @@ const Create = (props) => {
           )}
         </div>
         <div>
-          <label>Secret:</label>
+          <label htmlFor="secret">Secret:</label>
           <input
             type="password"
             name="secret"
@@ -89,7 +91,7 @@ const Create = (props) => {
           )}
         </div>
         <div>
-          <label>Algoritm:</label>
+          <label htmlFor="algoritm">Algoritm:</label>
           <select
             name="algoritm"
             value={formik.values.algoritm}

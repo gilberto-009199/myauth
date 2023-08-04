@@ -7,8 +7,10 @@ export function CaptureScreenQRCode(arg1:Array<number>,arg2:Array<number>):Promi
 
 export function TokenCreate(arg1:string):Promise<string>;
 
-export function TokenDelete():Promise<string>;
+export function TokenDelete(arg1:string):Promise<string>;
+
+export function TokenInfo(arg1:string,arg2:string):Promise<string>;
 
 export function TokenList(arg1:string):Promise<string>;
 
-export function TokenUpdate():Promise<string>;
+export function TokenUpdate(arg1:string,arg2:string,arg3:string):Promise<string>;
