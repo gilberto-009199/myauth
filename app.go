@@ -7,6 +7,7 @@ import (
 	"myauth/application/service"
 	"myauth/application/util"
 
+	"github.com/skip2/go-qrcode"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
@@ -73,6 +74,10 @@ func (a *App) ExportToken(uid, exportType, pass string) string {
 		if e != nil {
 			fmt.Println(e)
 			return model.NewMessage(false, nil).ToJSON()
+		}
+		buffFile, e = qrcode.Encode(payload, qrcode.Low, 256)
+		if e != nil {
+			fmt.Println(e)
 		}
 		break
 	case "myauth":
