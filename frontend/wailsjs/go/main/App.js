@@ -18,6 +18,10 @@ export function GetSettings() {
   return window['go']['main']['App']['GetSettings']();
 }
 
+export function ImportToken(arg1, arg2) {
+  return window['go']['main']['App']['ImportToken'](arg1, arg2);
+}
+
 export function ListAlgoritm() {
   return window['go']['main']['App']['ListAlgoritm']();
 }

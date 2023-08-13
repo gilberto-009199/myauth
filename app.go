@@ -100,6 +100,41 @@ func (a *App) ExportToken(uid, exportType, pass string) string {
 	return model.NewMessage(true, file).ToJSON()
 }
 
+func (a *App) ImportToken(exportType, pass string) string {
+
+	var file string
+	var e error
+
+	switch exportType {
+	case "csv":
+		file = a.GetFile(".csv")
+		if e != nil {
+			fmt.Println(e)
+			return model.NewMessage(false, nil).ToJSON()
+		}
+
+		break
+	case "qrcode":
+		file = a.GetFile(".png|.jpeg")
+		if e != nil {
+			fmt.Println(e)
+			return model.NewMessage(false, nil).ToJSON()
+		}
+
+		break
+	case "myauth":
+		file = a.GetFile(".bin|.myauth")
+		if e != nil {
+			fmt.Println(e)
+			return model.NewMessage(false, nil).ToJSON()
+		}
+
+		break
+	}
+
+	return model.NewMessage(true, file).ToJSON()
+}
+
 func (a *App) SaveFileDialog(filename string) (string, error) {
 
 	file, e := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{

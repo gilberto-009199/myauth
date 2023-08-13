@@ -7,6 +7,7 @@ import Settings from './route/Settings';
 import TokenCapture from './route/token/Capture';
 import TokenCreate from './route/token/Create';
 import TokenExport from './route/token/Export';
+import TokenImport from './route/token/Import';
 import TokenInfo from './route/token/Info';
 import TokenPassword from './route/token/Password';
 import TokenRemove from './route/token/Remove';
@@ -45,7 +46,7 @@ const App = () => {
                         <Link to="/token/remove">Token Remove</Link>
                     </li>
                     <li>
-                        <Link to="/token/export">Token Export</Link>
+                        <Link to="/token/import">Token Import</Link>
                     </li>
                     <li>
                         <Link to="/settings">Settings</Link>
@@ -63,6 +64,7 @@ const App = () => {
                 <Route path="/token/update" element={<TokenUpdate />} />
                 <Route path="/token/remove" element={<TokenRemove />} />
                 <Route path="/token/export" element={<TokenExport />} />
+                <Route path="/token/import" element={<TokenImport />} />
                 <Route path="/settings" element={<Settings />} />
             </Routes>
 

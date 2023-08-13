@@ -9,6 +9,8 @@ export function GetFile(arg1:string):Promise<string>;
 
 export function GetSettings():Promise<string>;
 
+export function ImportToken(arg1:string,arg2:string):Promise<string>;
+
 export function ListAlgoritm():Promise<string>;
 
 export function SaveFileDialog(arg1:string):Promise<string>;
