@@ -6,6 +6,7 @@ import (
 	"myauth/application/model"
 	"myauth/application/service"
 	"myauth/application/util"
+	"strings"
 
 	"github.com/skip2/go-qrcode"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -44,6 +45,27 @@ func (a *App) GetFile(pattern string) string {
 
 	fmt.Println(file)
 	return model.NewMessage(true, file).ToJSON()
+}
+
+func (a *App) getFileInternal(pattern string) (string, error) {
+
+	file, e := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{
+		Title: "Select File",
+		Filters: []runtime.FileFilter{
+			{
+				DisplayName: "File (" + pattern + ")",
+				Pattern:     pattern,
+			},
+		},
+	})
+
+	if e != nil {
+		fmt.Println(e)
+		return "", e
+	}
+
+	fmt.Println(file)
+	return file, nil
 }
 
 func (a *App) ExportToken(uid, exportType, pass string) string {
@@ -104,29 +126,78 @@ func (a *App) ImportToken(exportType, pass string) string {
 
 	var file string
 	var e error
+	var buffFile []byte
 
 	switch exportType {
 	case "csv":
-		file = a.GetFile(".csv")
+		file, e = a.getFileInternal("*.csv")
+		if e != nil {
+			fmt.Println(e)
+			return model.NewMessage(false, nil).ToJSON()
+		}
+		buffFile, e = util.ReadInFile(file)
 		if e != nil {
 			fmt.Println(e)
 			return model.NewMessage(false, nil).ToJSON()
 		}
 
+		csv := string(buffFile)
+
+		vctString := strings.Split(csv, ";")
+
+		a.appService.AddToken(model.TokenRequest{
+			Name:     vctString[0],
+			Algoritm: vctString[1],
+			Url:      vctString[2],
+			Passwrd:  pass,
+		})
+
 		break
+
 	case "qrcode":
-		file = a.GetFile(".png|.jpeg")
+		file, e = a.getFileInternal("*.png;*.jpg;*.jpeg")
 		if e != nil {
 			fmt.Println(e)
 			return model.NewMessage(false, nil).ToJSON()
 		}
 
-		break
-	case "myauth":
-		file = a.GetFile(".bin|.myauth")
+		url, e := util.FileQRCode(file)
 		if e != nil {
 			fmt.Println(e)
 			return model.NewMessage(false, nil).ToJSON()
+		}
+
+		// Cifrar
+		fmt.Println(url.RawPath)
+		a.appService.AddToken(model.TokenRequest{
+			Name:     url.Query().Get("issuer"),
+			Algoritm: a.appService.Settings.AlgoritmDefault,
+			Url:      url.RawPath,
+			Passwrd:  pass,
+		})
+
+		break
+
+	case "myauth":
+		file, e = a.getFileInternal("*.bin;*.myauth")
+		if e != nil {
+			fmt.Println(e)
+			return model.NewMessage(false, nil).ToJSON()
+		}
+
+		mapToken, e := util.ReadTokensInFile(file)
+		if e != nil {
+			fmt.Println(e)
+			return model.NewMessage(false, nil).ToJSON()
+		}
+
+		// Adicionando os valores do map à lista
+		for _, value := range mapToken {
+			a.appService.AddTokenNotPassword(model.TokenRequest{
+				Name:     value.Name,
+				Algoritm: value.Algoritm,
+				Url:      value.Payload,
+			})
 		}
 
 		break

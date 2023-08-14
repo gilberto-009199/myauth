@@ -37,7 +37,12 @@ const Export = () => {
     let sltValue = formatRef.current.value
 
     ExportToken(token.id, sltValue, token.pass).then(res=>{
-        console.log(res)
+      let data = JSON.parse(res)
+      
+      if(data.status){
+        navigate('/');
+      }else console.log("ERRO", res)
+
     }).catch(e=>console.log(e))
 
   }

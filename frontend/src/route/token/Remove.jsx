@@ -21,7 +21,8 @@ const Remove = () => {
 
   const handlerRemoveToken = () => {
     TokenDelete(token.id).then(res=>{
-      data = JSON.parse(res);
+      console.log(res)
+      let data = JSON.parse(res);
       if(data.status){
         navigate('/')
       } else {

@@ -114,6 +114,23 @@ func (s *ApplicationService) AddToken(token model.TokenRequest) {
 
 }
 
+func (s *ApplicationService) AddTokenNotPassword(token model.TokenRequest) {
+	id := uuid.New()
+
+	tokenStorage := util.Token{
+		Name:     token.Name,
+		Algoritm: token.Algoritm,
+		Payload:  token.Url,
+	}
+
+	s.MapToken[id.String()] = tokenStorage
+
+	fmt.Println(s.MapToken)
+
+	go util.SaveTokensInFile(s.Settings.PathFileTokens, s.MapToken)
+
+}
+
 func (s *ApplicationService) UpdateToken(uid string, token model.TokenRequest, pass string) {
 
 	tokenCurrent := s.MapToken[uid]

@@ -32,7 +32,7 @@ func ReadTokensInFile(filename string) (map[string]Token, error) {
 
 	vectToken := map[string]Token{}
 
-	bytes, er := readInFile(filename)
+	bytes, er := ReadInFile(filename)
 	if er != nil {
 		fmt.Println(er)
 		return nil, er
@@ -49,7 +49,7 @@ func ReadSettingsInFile(filename string) (Settings, error) {
 
 	settings := Settings{}
 
-	bytes, er := readInFile(filename)
+	bytes, er := ReadInFile(filename)
 	if er != nil {
 		fmt.Println(er)
 		return settings, er
@@ -98,6 +98,12 @@ func ToBSON(ent interface{}) []byte {
 	return data
 }
 
+func ReadInArrayToObject(byteArray []byte, obj interface{}) {
+	if err := bson.Unmarshal(byteArray, obj); err != nil {
+		fmt.Println(err)
+	}
+}
+
 func readInArrayToObject(byteArray []byte, obj interface{}) {
 	if err := bson.Unmarshal(byteArray, obj); err != nil {
 		fmt.Println(err)
@@ -109,7 +115,7 @@ func SaveInFile(filename string, data []byte) error {
 	return erro
 }
 
-func readInFile(filename string) ([]byte, error) {
+func ReadInFile(filename string) ([]byte, error) {
 
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
