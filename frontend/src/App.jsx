@@ -22,52 +22,34 @@ const App = () => {
             <nav>
                 <ol>
                     <li>
-                        <Link to="/">Home</Link>
+                        <Link to="/" data-icon="&#xe08d;"></Link>
                     </li>
                     <li>
-                        <Link to="/password">Password</Link>
+                        <Link to="/password" data-icon="&#xe06e;"></Link>
                     </li>
                     <li>
-                        <Link to="/token/capture">token capture</Link>
+                        <Link to="/token/capture" data-icon="&#xe050;"></Link>
                     </li>
                     <li>
-                        <Link to="/token/create">token create</Link>
-                    </li>
-                    <li>
-                        <Link to="/token/info">token info</Link>
-                    </li>
-                    <li>
-                        <Link to="/token/password">Token Password</Link>
-                    </li>
-                    <li>
-                        <Link to="/token/update">Token Update</Link>
-                    </li>
-                    <li>
-                        <Link to="/token/remove">Token Remove</Link>
-                    </li>
-                    <li>
-                        <Link to="/token/import">Token Import</Link>
-                    </li>
-                    <li>
-                        <Link to="/settings">Settings</Link>
+                        <Link to="/settings" data-icon="&#xe038;"></Link>
                     </li>
                 </ol>
             </nav>
-
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/password" element={<Password />} />
-                <Route path="/token/capture" element={<TokenCapture />} />
-                <Route path="/token/create" element={<TokenCreate />} />
-                <Route path="/token/info" element={<TokenInfo />} />
-                <Route path="/token/password" element={<TokenPassword />} />
-                <Route path="/token/update" element={<TokenUpdate />} />
-                <Route path="/token/remove" element={<TokenRemove />} />
-                <Route path="/token/export" element={<TokenExport />} />
-                <Route path="/token/import" element={<TokenImport />} />
-                <Route path="/settings" element={<Settings />} />
-            </Routes>
-
+            <div className="main">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/password" element={<Password />} />
+                    <Route path="/token/capture" element={<TokenCapture />} />
+                    <Route path="/token/create" element={<TokenCreate />} />
+                    <Route path="/token/info" element={<TokenInfo />} />
+                    <Route path="/token/password" element={<TokenPassword />} />
+                    <Route path="/token/update" element={<TokenUpdate />} />
+                    <Route path="/token/remove" element={<TokenRemove />} />
+                    <Route path="/token/export" element={<TokenExport />} />
+                    <Route path="/token/import" element={<TokenImport />} />
+                    <Route path="/settings" element={<Settings />} />
+                </Routes>
+            </div>
         </div>
     </Router>
   );

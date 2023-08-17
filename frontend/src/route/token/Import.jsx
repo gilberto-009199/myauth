@@ -58,15 +58,15 @@ const Import = () => {
   }
 
   return (
-    <div>
-      <h1>Token Import</h1>
+    <div className='router-content'>
       <form onSubmit={handlerExport}>
+        <h1>Token Import</h1>
         <select ref={formatRef}>
           <option value="myauth">MyAuth</option>
           <option value="csv">CSV</option>
           <option value="qrcode">QRCode</option>
         </select>
-        <button>import</button>
+        <button type='submit'>import</button>
       </form>
     </div>
   );

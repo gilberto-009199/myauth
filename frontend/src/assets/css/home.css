@@ -1,0 +1,98 @@
+.list_token{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+.list_token_item{
+    width: 99%;
+    min-width: 450px;
+    display: block;
+    margin-top: 7px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #196e6ca2;
+    border-radius: 3px;
+    padding: 8px 0px 0px 0px;
+}
+.list_token_item_name,.list_token_item_code{
+    text-align: left;
+    padding-left: 70px;
+}
+.list_token_item_name{
+    font-size: 1.1em;
+}
+.list_token_item_code{
+    color: #3a89ff;
+    font-size: 1.5em;
+    padding-bottom: 6px;
+}
+span.list_token_item_btn{
+    float: right;
+    font-size: 1.7em;
+    position: relative;
+    top: -0.48em;
+    color: #ffffff82;
+    transform: rotate(0deg);
+    overflow: hidden;
+    transition: 0.2s linear;
+    left: -17px;
+}
+span.list_token_item_btn:hover{
+    color: #fff;
+    cursor: pointer;
+}
+.list_token_item_menu{
+    background-color: #102b5f3b;
+}
+.list_token_item_menu.disable{
+    display: none;
+}
+.list_token_item_menu div{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+}
+.list_token_item_menu div a{
+    width: 100%;
+    font-size: 1.1em;
+    text-align: center;
+    margin-bottom: 8px;
+}
+.list_token_item_menu div a:before{
+    display: block;
+    font-size: 1.3em;
+}
+.list_token_item_menu div a.borda{
+    border-right: solid 1px;
+}
+.list_token_item_menu div a.borda:hover{
+    border-right: solid 1px rgba(216, 216, 216, 0.315);
+}
+.list_token_item_timer{
+    float: left;
+    font-size: 1.7em;
+    position: relative;
+    top: 0.2em;
+    margin-left: 10px;
+    color: #ffffff82;
+}
+.list_token_item_timer_text{
+    fill: rgb(255, 255, 255);
+    font-weight: 700;
+    text-anchor: middle;
+    text-transform: lowercase;
+    white-space: pre;
+    font-size: 12px;
+}
+
+.list_token_item_timer .circle {
+    stroke-width: 4;
+    fill: transparent;
+}
+.list_token_item_timer .circle.circle_animation{
+    stroke-dashoffset: 99;
+    stroke-dasharray: 100;
+}

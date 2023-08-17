@@ -87,11 +87,12 @@ const Settings = () => {
   }
 
   return (
-    <div>
-      <h1>Settings</h1>
+    <div className='router-content'>
       <form onSubmit={formik.handleSubmit}>
+        <h1>Settings</h1>
         <div>
           <label htmlFor="file_settings">File Settings:</label>
+          <br />
           <input
             type="text"
             name="file_settings"
@@ -99,26 +100,28 @@ const Settings = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          <button onClick={clickDiscSettiing}>D</button>
+          <button type='button' className='input_complement' data-icon="&#xe0e4;" onClick={clickDiscSettiing}></button>
           {formik.touched.file_settings && formik.errors.file_settings && (
-            <span>{formik.errors.file_settings}</span>
+            <span className='error-input'>{formik.errors.file_settings}</span>
           )}
         </div>
         <div>
           <label htmlFor="file_tokens">File Settings:</label>
+          <br />
           <input
             type="text"
             name="file_tokens"
             value={formik.values.file_tokens}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}/>
-          <button onClick={clickDiscToken}>D</button>
+          <button type='button' className='input_complement' data-icon="&#xe0e4;" onClick={clickDiscToken}></button>
           {formik.touched.file_tokens && formik.errors.file_tokens && (
-            <span>{formik.errors.file_tokens}</span>
+            <span className='error-input'>{formik.errors.file_tokens}</span>
           )}
         </div>
         <div>
           <label htmlFor="algoritm">Algoritm:</label>
+          <br />
           <select
             name="algoritm"
             value={formik.values.algoritm}
@@ -131,7 +134,7 @@ const Settings = () => {
               }
           </select>
           {formik.touched.algoritm && formik.errors.algoritm && (
-            <span>{formik.errors.algoritm}</span>
+            <span className='error-input'>{formik.errors.algoritm}</span>
           )}
         </div>
         <button type="submit">Salvar</button>

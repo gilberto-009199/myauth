@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Hide, Show, WindowFullscreen, WindowUnfullscreen,
   ScreenGetAll, WindowCenter, WindowGetSize, WindowReloadApp,
@@ -9,6 +9,8 @@ import {
 import { CaptureScreen, CaptureScreenQRCode } from '../../../wailsjs/go/crud/CrudToken';
 
 const Capture = () => {
+
+  const location = useLocation();
 
   const canvasRef = useRef(null);
   const divTopRef = useRef(null);
@@ -249,10 +251,14 @@ const Capture = () => {
         event.keyCode == 16  // SHIFT
       ) {
 
-      	// se ao tentar pegar o position eu ja tenha maximizado em fullcreen a tela?
-		  setTimeout(() => handleWindowReset().then(() => {}).catch(()=> WindowReloadApp()), 50)
 
-      navigate("/")
+      if(location.state && location.state.dst)navigate(location.state.dst)
+      else navigate("/")
+
+      // se ao tentar pegar o position eu ja tenha maximizado em fullcreen a tela?
+		  setTimeout(() => handleWindowReset().then(() => {}).catch((e)=> console.log(e)), 10)
+      
+
 	}
 
   };
@@ -263,7 +269,7 @@ const Capture = () => {
     
 	  return new Promise((resolve,reject)=>{
       WindowCenter()
-      WindowSetSize(windowOriginSize.w , windowOriginSize.h).then(size=>resolve())
+      WindowSetSize(windowOriginSize.w *1, windowOriginSize.h*1).then(size=>resolve())
       .catch(e=>reject(e)); 
     });
 

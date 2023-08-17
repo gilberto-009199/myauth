@@ -1,59 +1,93 @@
-#app {
+nav {
+    display: inline-block;
     height: 100vh;
-    text-align: center;
+    width: 100px;
+    float: left;
 }
-
-#logo {
+nav a{
+    font-size: 1.8em;
+    margin:29px 0px;
+    color: rgba(216, 216, 216, 0.315);
+    min-height: 30%;
     display: block;
-    width: 50%;
-    height: 50%;
-    margin: auto;
-    padding: 10% 0 0;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-origin: content-box;
 }
-
-.result {
-    height: 20px;
-    line-height: 20px;
-    margin: 1.5rem auto;
+nav a:hover{
+    color: rgb(216, 216, 216);
 }
-
-.input-box .btn {
-    width: 60px;
-    height: 30px;
-    line-height: 30px;
+.main{
+    display: inline-block;
+    height: 100vh;
+    width: calc(100vw - 100px);
+    float: left;
+}
+.main .router-content{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: nowrap;
+}
+.panel-action-buttons{
+    bottom: 0;
+    position: fixed;
+    width: calc(100vw - 100px);
+    padding: 4px 0px;
+}
+form{
+    width: 40%;
+    min-width: 200px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 7px;
+    border: unset;
+    display: block;
+    overflow: auto;
+}
+.painel-create-captureqr{
+    width: 40%;
+    max-width: 440px;
+    min-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    padding: 20px 7px 12px;
     border-radius: 3px;
-    border: none;
-    margin: 0 0 0 20px;
-    padding: 0 8px;
+    border: unset;
+    background-color: #249492;
+}
+.painel-create-captureqr a{
+    color:white;
+    font-size: 1.9em;
+}
+.painel-create-captureqr:hover{
     cursor: pointer;
+    
+    background-color: #1badab;
 }
 
-.input-box .btn:hover {
-    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
-    color: #333333;
+form button[type="submit"]{
+    float: right;
+    margin: 23px 0px;
 }
 
-.input-box .input {
-    border: none;
-    border-radius: 3px;
-    outline: none;
-    height: 30px;
-    line-height: 30px;
-    padding: 0 10px;
-    background-color: rgba(240, 240, 240, 1);
-    -webkit-font-smoothing: antialiased;
-}
-
-.input-box .input:hover {
-    border: none;
-    background-color: rgba(255, 255, 255, 1);
-}
-
-.input-box .input:focus {
-    border: none;
-    background-color: rgba(255, 255, 255, 1);
+@media screen and (min-width: 1000px){
+    .main .router-content{
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        align-content: center;
+        flex-wrap: nowrap;
+    }
+    .painel-create-captureqr{
+        font-size: 2.3em;
+    }
+    .form-create{
+        padding: 60px;
+        border-left: 1px solid #1badab;
+    }
 }

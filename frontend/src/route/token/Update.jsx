@@ -66,11 +66,11 @@ const Update = () => {
   });
 
   return (
-    <div>
-      <h1>Token Update</h1>
+    <div className='router-content'>
       <form onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="name">Name:</label>
+          <br />
           <input
             type="text"
             name="name"
@@ -79,11 +79,12 @@ const Update = () => {
             onBlur={formik.handleBlur}
           />
           {formik.touched.name && formik.errors.name && (
-            <span>{formik.errors.name}</span>
+            <span className='error-input'>{formik.errors.name}</span>
           )}
         </div>
         <div>
           <label htmlFor="algoritm">Algoritm:</label>
+          <br />
           <select
             name="algoritm"
             value={formik.values.algoritm}
@@ -97,7 +98,7 @@ const Update = () => {
               }
           </select>
           {formik.touched.algoritm && formik.errors.algoritm && (
-            <span>{formik.errors.algoritm}</span>
+            <span className='error-input'>{formik.errors.algoritm}</span>
           )}
         </div>
         <button type="submit">Salvar</button>

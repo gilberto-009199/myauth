@@ -48,9 +48,9 @@ const Export = () => {
   }
 
   return (
-    <div>
-      <h1>Token {token.name} Export</h1>
+    <div  className='router-content'>
       <form onSubmit={handlerExport}>
+        <h1>Token {token.name} Export</h1>
         <select ref={formatRef}>
           <option value="myauth">MyAuth</option>
           <option value="csv">CSV</option>

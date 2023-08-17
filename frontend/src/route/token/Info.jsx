@@ -35,12 +35,14 @@ const Info = () => {
   },[])
 
   return (
-    <div>
-      <h1>Token Info</h1>
-      <p>Name: <strong>{token.name}</strong></p>
-      <p>Secret: <strong>{token.secret}</strong> Ver </p>
-      <p>Algoritm: <strong>{token.algoritm}</strong></p>
-      <p>Code: <strong>{token.code}</strong></p>
+    <div className='router-content'>
+      <div>
+        <h1>Token Info</h1>
+        <p>Name: <strong>{token.name}</strong></p>
+        <p>Secret: <strong>{token.secret}</strong> Ver </p>
+        <p>Algoritm: <strong>{token.algoritm}</strong></p>
+        <p>Code: <strong>{token.code}</strong></p>
+      </div>
     </div>
   );
 };

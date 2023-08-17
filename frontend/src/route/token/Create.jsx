@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -61,11 +61,17 @@ const Create = (props) => {
   }, []);
 
   return (
-    <div>
-      <h1>Token Create</h1>
-      <form onSubmit={formik.handleSubmit}>
+    <div className='router-content'>
+      <div className="painel-create-captureqr" onClick={()=> navigate("/token/capture",{ state: {'dst':'/token/create'} }) }>
+        <Link data-icon="&#xe00f;"></Link>
+        <br/>
+        QRCode
+      </div>
+      
+      <form className="form-create" onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="name">Name:</label>
+          <br/>
           <input
             type="text"
             name="name"
@@ -74,11 +80,12 @@ const Create = (props) => {
             onBlur={formik.handleBlur}
           />
           {formik.touched.name && formik.errors.name && (
-            <span>{formik.errors.name}</span>
+            <span className='error-input'>{formik.errors.name}</span>
           )}
         </div>
         <div>
           <label htmlFor="secret">Secret:</label>
+          <br/>
           <input
             type="password"
             name="secret"
@@ -87,18 +94,18 @@ const Create = (props) => {
             onBlur={formik.handleBlur}
           />
           {formik.touched.secret && formik.errors.secret && (
-            <span>{formik.errors.secret}</span>
+            <span className='error-input'>{formik.errors.secret}</span>
           )}
         </div>
         <div>
           <label htmlFor="algoritm">Algoritm:</label>
+          <br/>
           <select
             name="algoritm"
             value={formik.values.algoritm}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             >
-              <option value="">Selecione um item</option>
               {
                 listAlgoritm.map((item,index) => (
                   <option key={index} value={item}>{item}</option>
@@ -106,7 +113,7 @@ const Create = (props) => {
               }
           </select>
           {formik.touched.algoritm && formik.errors.algoritm && (
-            <span>{formik.errors.algoritm}</span>
+            <span className='error-input'>{formik.errors.algoritm}</span>
           )}
         </div>
         <button type="submit">Salvar</button>
