@@ -24,6 +24,20 @@ func (a *CrudToken) TokenList(passwrd string) string {
 	return model.NewMessage(true, listToken).ToJSON()
 }
 
+func (a *CrudToken) TokenTimeCode(secreat string) string {
+
+	times := ""
+
+	// Adicionando os valores do map à lista
+	for uuid, value := range a.appService.MapToken {
+		item := model.ToTokenResponse(value, passwrd)
+		item.Id = uuid
+		listToken = append(listToken, item)
+	}
+
+	return model.NewMessage(true, listToken).ToJSON()
+}
+
 func (a *CrudToken) TokenInfo(uid, pass string) string {
 
 	token := a.appService.MapToken[uid]

@@ -71,28 +71,3 @@ span.list_token_item_btn:hover{
 .list_token_item_menu div a.borda:hover{
     border-right: solid 1px rgba(216, 216, 216, 0.315);
 }
-.list_token_item_timer{
-    float: left;
-    font-size: 1.7em;
-    position: relative;
-    top: 0.2em;
-    margin-left: 10px;
-    color: #ffffff82;
-}
-.list_token_item_timer_text{
-    fill: rgb(255, 255, 255);
-    font-weight: 700;
-    text-anchor: middle;
-    text-transform: lowercase;
-    white-space: pre;
-    font-size: 12px;
-}
-
-.list_token_item_timer .circle {
-    stroke-width: 4;
-    fill: transparent;
-}
-.list_token_item_timer .circle.circle_animation{
-    stroke-dashoffset: 99;
-    stroke-dasharray: 100;
-}

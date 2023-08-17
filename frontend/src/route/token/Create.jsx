@@ -6,6 +6,9 @@ import * as Yup from 'yup';
 import { ListAlgoritm  as getListAlgoritm } from '../../../wailsjs/go/main/App';
 import { TokenCreate } from '../../../wailsjs/go/crud/CrudToken';
 
+
+import '../../assets/css/token.css';
+
 const Create = (props) => {
 
   // feature add campo code current for register
@@ -58,8 +61,48 @@ const Create = (props) => {
 
     }
 
+    let idTimer = setInterval(()=>{ loopTokens() }, 150)
+
+    return ()=>{
+      clearInterval(idTimer)
+    }
+
   }, []);
 
+  const loopTokens = () =>{
+
+    let timeNow = Date.now()
+
+    document.querySelectorAll('.circle.circle_animation').forEach( elm =>{
+
+      let interval = elm.attributes['data-second'].value * 1;
+      let text  = elm.parentNode.querySelector('text')
+
+      let percentage = ( ( timeNow / (interval * 1000)) - Math.floor( timeNow / (interval * 1000) ) )* 100
+
+      elm.style.strokeDashoffset = percentage * 2
+
+      if(percentage > 98){
+
+        text.innerHTML = (0) + 's';
+
+        //setTimeout(()=> loadTokens(), 100)
+
+      } else text.innerHTML = ~(( interval / 100 * percentage ).toFixed(0)  - interval) + 's';
+
+    })
+  }
+
+  const maskCode = (code) =>{
+    return code.slice(0, code.length / 2) + " " + code.slice( code.length / 2,  code.length )
+  }
+  const handlerToken = (e)=>{
+    
+    let code = e.target.value
+
+
+
+  }
   return (
     <div className='router-content'>
       <div className="painel-create-captureqr" onClick={()=> navigate("/token/capture",{ state: {'dst':'/token/create'} }) }>
@@ -89,6 +132,7 @@ const Create = (props) => {
           <input
             type="password"
             name="secret"
+            onInput={handlerToken}
             value={formik.values.secret}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -104,8 +148,7 @@ const Create = (props) => {
             name="algoritm"
             value={formik.values.algoritm}
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            >
+            onBlur={formik.handleBlur}>
               {
                 listAlgoritm.map((item,index) => (
                   <option key={index} value={item}>{item}</option>
@@ -115,6 +158,28 @@ const Create = (props) => {
           {formik.touched.algoritm && formik.errors.algoritm && (
             <span className='error-input'>{formik.errors.algoritm}</span>
           )}
+        </div>
+        <div className="token_code_timers">
+          <div className='token_code_timer'>
+            <svg className="list_token_item_timer" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <circle r="32" cy="50" cx="50" strokeWidth="2" stroke="#003fff75" fill="none"></circle>
+                  <circle className="circle circle_animation" data-second="30" r="32" cy="50" cx="50" strokeWidth="3" stroke="#6fdb6f" fill="none"></circle>
+                  <text className="list_token_item_timer_text" x="50" y="54">30s</text>
+                </g>
+            </svg>
+            {maskCode('879587')}
+          </div>
+          <div className='token_code_timer'>
+          <svg className="list_token_item_timer" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <circle r="32" cy="50" cx="50" strokeWidth="2" stroke="#003fff75" fill="none"></circle>
+                  <circle className="circle circle_animation" data-second="30" r="32" cy="50" cx="50" strokeWidth="3" stroke="#6fdb6f" fill="none"></circle>
+                  <text className="list_token_item_timer_text" x="50" y="54">30s</text>
+                </g>
+            </svg>
+            {maskCode('720068')}
+          </div>
         </div>
         <button type="submit">Salvar</button>
       </form>

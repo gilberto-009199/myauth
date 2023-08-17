@@ -1,0 +1,26 @@
+.token_code_timers{
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: overlay;
+    padding: 8px 0px;
+}
+.token_code_timers .token_code_timer{
+    width: 50%;
+    display: inline-block;
+    float: left;
+    padding: 8px 0px;
+    text-align: center;
+}
+.token_code_timers .token_code_timer svg{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: unset;
+    float: none;
+}
+
+.token_code_timers .token_code_timer svg .circle.circle_animation{
+    stroke-dasharray: 200;
+}
