@@ -68,9 +68,8 @@ const Update = () => {
   return (
     <div className='router-content'>
       <form onSubmit={formik.handleSubmit}>
-        <div>
+        <div className="form_group">
           <label htmlFor="name">Name:</label>
-          <br />
           <input
             type="text"
             name="name"
@@ -82,9 +81,8 @@ const Update = () => {
             <span className='error-input'>{formik.errors.name}</span>
           )}
         </div>
-        <div>
+        <div className="form_group">
           <label htmlFor="algoritm">Algoritm:</label>
-          <br />
           <select
             name="algoritm"
             value={formik.values.algoritm}

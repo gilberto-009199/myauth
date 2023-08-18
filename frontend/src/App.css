@@ -61,6 +61,19 @@ form{
     border: unset;
     background-color: #249492;
 }
+form h1{
+    padding: 12px 5px;
+    font-size: 1.3em;
+}
+.form_group{
+    padding: 9px 0px;
+}
+.form_group label{
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
 .painel-create-captureqr a{
     color:white;
     font-size: 1.9em;
@@ -71,7 +84,7 @@ form{
     background-color: #1badab;
 }
 
-form button[type="submit"]{
+form button[type="submit"],form input[type="submit"]{
     float: right;
     margin: 23px 0px;
 }

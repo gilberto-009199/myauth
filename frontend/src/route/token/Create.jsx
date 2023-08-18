@@ -4,7 +4,7 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ListAlgoritm  as getListAlgoritm } from '../../../wailsjs/go/main/App';
-import { TokenCreate } from '../../../wailsjs/go/crud/CrudToken';
+import { TokenCreate, TokenTimeCode } from '../../../wailsjs/go/crud/CrudToken';
 
 
 import '../../assets/css/token.css';
@@ -15,6 +15,9 @@ const Create = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [listAlgoritm, setListAlgoritm] = useState([]);
+  const [genCodeValid, setGenCodeValid] = useState(false);
+  const [currentToken, setCurrentToken] = useState('000000');
+  const [nextToken, setNextToken] = useState('000000');
   
   getListAlgoritm().then(res =>{
     let data = JSON.parse(res)
@@ -86,7 +89,7 @@ const Create = (props) => {
 
         text.innerHTML = (0) + 's';
 
-        //setTimeout(()=> loadTokens(), 100)
+        setTimeout(()=> handlerToken({target:{ value: formik.values.secret }}), 100)
 
       } else text.innerHTML = ~(( interval / 100 * percentage ).toFixed(0)  - interval) + 's';
 
@@ -100,9 +103,20 @@ const Create = (props) => {
     
     let code = e.target.value
 
+    if( code.length < 4 )return;
 
+    TokenTimeCode(code).then(res=>{
+      let data = JSON.parse(res)
+      if(data.status){
+        setCurrentToken(data.message[0])
+        setNextToken(data.message[1])
+        setGenCodeValid(true)
+      }else setGenCodeValid(false)
+    })
 
   }
+
+
   return (
     <div className='router-content'>
       <div className="painel-create-captureqr" onClick={()=> navigate("/token/capture",{ state: {'dst':'/token/create'} }) }>
@@ -112,9 +126,8 @@ const Create = (props) => {
       </div>
       
       <form className="form-create" onSubmit={formik.handleSubmit}>
-        <div>
+        <div className="form_group">
           <label htmlFor="name">Name:</label>
-          <br/>
           <input
             type="text"
             name="name"
@@ -126,9 +139,8 @@ const Create = (props) => {
             <span className='error-input'>{formik.errors.name}</span>
           )}
         </div>
-        <div>
+        <div className="form_group">
           <label htmlFor="secret">Secret:</label>
-          <br/>
           <input
             type="password"
             name="secret"
@@ -141,9 +153,8 @@ const Create = (props) => {
             <span className='error-input'>{formik.errors.secret}</span>
           )}
         </div>
-        <div>
+        <div className="form_group">
           <label htmlFor="algoritm">Algoritm:</label>
-          <br/>
           <select
             name="algoritm"
             value={formik.values.algoritm}
@@ -159,7 +170,8 @@ const Create = (props) => {
             <span className='error-input'>{formik.errors.algoritm}</span>
           )}
         </div>
-        <div className="token_code_timers">
+        { genCodeValid ?
+        <div className="token_code_timers" >
           <div className='token_code_timer'>
             <svg className="list_token_item_timer" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
                 <g>
@@ -168,7 +180,7 @@ const Create = (props) => {
                   <text className="list_token_item_timer_text" x="50" y="54">30s</text>
                 </g>
             </svg>
-            {maskCode('879587')}
+            {maskCode(currentToken)}
           </div>
           <div className='token_code_timer'>
           <svg className="list_token_item_timer" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
@@ -178,9 +190,14 @@ const Create = (props) => {
                   <text className="list_token_item_timer_text" x="50" y="54">30s</text>
                 </g>
             </svg>
-            {maskCode('720068')}
+            {maskCode(nextToken)}
           </div>
         </div>
+        : 
+        <div className="token_code_noffound">
+          <p data-icon="&#x71;"></p>  
+          <p> Codigo não reconhecido! </p>
+        </div>}
         <button type="submit">Salvar</button>
       </form>
     </div>

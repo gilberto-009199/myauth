@@ -3,6 +3,7 @@ package crud
 import (
 	"myauth/application/model"
 	"myauth/application/service"
+	"myauth/application/util"
 )
 
 type CrudToken struct {
@@ -26,16 +27,12 @@ func (a *CrudToken) TokenList(passwrd string) string {
 
 func (a *CrudToken) TokenTimeCode(secreat string) string {
 
-	times := ""
-
-	// Adicionando os valores do map à lista
-	for uuid, value := range a.appService.MapToken {
-		item := model.ToTokenResponse(value, passwrd)
-		item.Id = uuid
-		listToken = append(listToken, item)
+	otps, err := util.GenerateMultiCode(secreat)
+	if err != nil {
+		return model.NewMessage(false, nil).ToJSON()
 	}
 
-	return model.NewMessage(true, listToken).ToJSON()
+	return model.NewMessage(true, otps).ToJSON()
 }
 
 func (a *CrudToken) TokenInfo(uid, pass string) string {

@@ -26,6 +26,10 @@ export function TokenList(arg1) {
   return window['go']['crud']['CrudToken']['TokenList'](arg1);
 }
 
+export function TokenTimeCode(arg1) {
+  return window['go']['crud']['CrudToken']['TokenTimeCode'](arg1);
+}
+
 export function TokenUpdate(arg1, arg2, arg3) {
   return window['go']['crud']['CrudToken']['TokenUpdate'](arg1, arg2, arg3);
 }

@@ -41,6 +41,26 @@ func ReadOTPInPayloadToDataCode(otp string) DataCode {
 	return data
 }
 
+func GenerateMultiCode(code string) ([]string, error) {
+
+	secret := code
+
+	timeCurrent := time.Now()
+	currentOTP, err := totp.GenerateCode(secret, timeCurrent)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	nextOTP, err := totp.GenerateCode(secret, timeCurrent.Add(30*time.Second))
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return []string{currentOTP, nextOTP}, nil
+}
+
 // gil por que vc nao simplesmente usa gson ou o jsonp padrao do Go? Em?
 func ReadOTPInURLToJSON(otp string) (*url.URL, error) {
 

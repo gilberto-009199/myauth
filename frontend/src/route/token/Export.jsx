@@ -56,7 +56,7 @@ const Export = () => {
           <option value="csv">CSV</option>
           <option value="qrcode">QRCode</option>
         </select>
-        <button>Export</button>
+        <button type="submit">Export</button>
       </form>
     </div>
   );

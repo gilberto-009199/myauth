@@ -13,4 +13,6 @@ export function TokenInfo(arg1:string,arg2:string):Promise<string>;
 
 export function TokenList(arg1:string):Promise<string>;
 
+export function TokenTimeCode(arg1:string):Promise<string>;
+
 export function TokenUpdate(arg1:string,arg2:string,arg3:string):Promise<string>;

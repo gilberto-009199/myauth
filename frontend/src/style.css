@@ -21,7 +21,7 @@ nav{
     height: 100vh;
     text-align: center;
 }
-button{
+button, input[type="button"], input[type="submit"]{
     background-color: #17bfbb;
     border: none;
     color: white;
@@ -30,13 +30,13 @@ button{
     font-size: 0.9em;
     border-radius: 2px;
 }
-button.dark{
+button.dark, input[type="button"].dark, input[type="submit"].dark{
     background-color: #196E6C;
 }
-button.dark:hover{
+button.dark:hover, input[type="button"].dark:hover, input[type="submit"].dark:hover{
     background-color: #1E817E;
 }
-button:hover{
+button:hover, input[type="button"]:hover, input[type="submit"]:hover{
     background-color: #17e4e0;
     cursor: pointer;
 }
@@ -48,7 +48,7 @@ a{
 a:hover{
     color: rgb(216, 216, 216);
 }
-input{
+input[type="text"],input[type="password"]{
     padding: 7px 0px;
     font-size: 12px;
     border-width: 0px;

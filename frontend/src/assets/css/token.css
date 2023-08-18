@@ -24,3 +24,29 @@
 .token_code_timers .token_code_timer svg .circle.circle_animation{
     stroke-dasharray: 200;
 }
+.token_code_noffound{
+    text-align: center;
+    padding-top: 25px;
+}
+.token_code_noffound p[data-icon]{
+    font-size: 3em;
+    color: #c74017;
+}
+.token_desc{
+    min-width: 300px;
+    text-align: start;
+    font-weight: bold;
+    padding-bottom: 12px;
+}
+.token_desc_value{
+    display: inline-block;
+    font-weight: normal;
+    font-size: 0.9em;
+    opacity: 0.6;
+    padding: 0px 0px 2px 4px;
+    float: right;
+}
+
+.token_desc_value:hover{
+    opacity: 1;
+}
