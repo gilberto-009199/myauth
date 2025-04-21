@@ -2,7 +2,12 @@
 
 <img alt="home" width="500" height="380" src="./example_home.png">
 
-MyAuth, manager token OTP and HOTP
+
+<img align="right" src="./assets/golang.svg" alt="Golang" width="48px"/>
+<img align="right" src="./assets/react16x16.svg" alt="React" width="32px"/>
+<img align="right" src="./assets/wails.svg" alt="Wails" width="32px"/>
+
+MyAuth, manager token OTP and HOTP, Usando **Golang**, **React** e **Wails**.
 
 ## About
 
